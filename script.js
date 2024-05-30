@@ -2,6 +2,7 @@ const carouselContainer = document.querySelector('.carousel-container');
 const slides = document.querySelectorAll('.carousel-slide');
 const prevBtn = document.querySelector('.prev-btn');
 const nextBtn = document.querySelector('.next-btn');
+const loginbtn = document.querySelector(".login");
 
 let currentIndex = 0;
 
@@ -25,3 +26,12 @@ prevBtn.addEventListener('click', () => {
 });
 
 showSlide(currentIndex);
+
+function LoginWindow()
+{
+    window.open("login.php", "_self");
+}
+function RegisterWindow()
+{
+    window.open("register.php", "_self");
+}
