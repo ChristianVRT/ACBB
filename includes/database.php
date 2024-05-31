@@ -2,7 +2,7 @@
 $dbserver = "localhost";
 $dbuser = "root";
 $dbpassword = "";
-$dbname = "acbb_db";
+$dbname = "accb_db";
 $connection = "";
 
 try
