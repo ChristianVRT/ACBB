@@ -48,10 +48,10 @@
                                     <img src="uploads/<?php echo $_SESSION['profile_pic']; ?>" alt="Foto de Perfil" width="30" height="30" class="rounded-circle me-2">
                                     Olá, <a href="php/profile.php"><?php echo $_SESSION['user_name']; ?></a>
                                 </span>
-                                <a href="php/logout.php" class="btn btn-outline-danger">Logout</a>
+                                <a href="php/logout.php" class="btn btn-outline-danger">Sair</a>
                             <?php else: ?>
-                                <button onclick="LoginWindow()" class="btn btn-outline-info me-2">Login</button>
-                                <button onclick="RegisterWindow()" class="btn btn-info">Register</button>
+                                <button onclick="LoginWindow()" class="btn btn-outline-info me-2">Entrar</button>
+                                <button onclick="RegisterWindow()" class="btn btn-info">Registrar</button>
                             <?php endif; ?>
                         </div>
                     </div>
@@ -124,19 +124,19 @@
                     <p>Conheça os profissionais que fazem a ACBB Consultoria ser referência no mercado:</p>
                     <div class="row">
                         <div class="col-md-3">
-                            <h4>João Silva</h4>
+                            <h4>Christian Vladimir</h4>
                             <p>CEO</p>
                         </div>
                         <div class="col-md-3">
-                            <h4>Maria Oliveira</h4>
+                            <h4>Argel Costa</h4>
                             <p>Diretora de Projetos</p>
                         </div>
                         <div class="col-md-3">
-                            <h4>Carlos Souza</h4>
+                            <h4>Bryan costa</h4>
                             <p>Consultor Sênior</p>
                         </div>
                         <div class="col-md-3">
-                            <h4>Ana Lima</h4>
+                            <h4>Breno Pinto</h4>
                             <p>Especialista em Treinamentos</p>
                         </div>
                     </div>
@@ -188,7 +188,7 @@
         </main>
 
         <footer class="bg-dark text-white text-center py-3">
-            <p>&copy; 2023 ACBB Consultoria. Todos os direitos reservados.</p>
+            <p>&copy; 2024 ACBB Consultoria. Todos os direitos reservados.</p>
         </footer>
     </div>
 
