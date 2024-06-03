@@ -27,11 +27,10 @@ prevBtn.addEventListener('click', () => {
 
 showSlide(currentIndex);
 
-function LoginWindow()
-{
-    window.open("login.php", "_self");
+function LoginWindow() {
+    window.open("php/login.php", "_self");
 }
-function RegisterWindow()
-{
-    window.open("register.php", "_self");
+
+function RegisterWindow() {
+    window.open("php/register.php", "_self");
 }
