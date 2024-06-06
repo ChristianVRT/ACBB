@@ -1,18 +1,30 @@
 <?php
 include 'database.php';
+
 session_start();
 
-if (!isset($_SESSION['user_id'])) {
-    header("Location: login.php");
-    exit();
-}
+//  if (!isset($_SESSION['email'])) 
+//  {
+//      header("Location: login.php");
+//      exit();
+//  }
 
-$user_id = $_SESSION['user_id'];
+
+$user_email = $_SESSION['email'];
+// $sql = "SELECT * FROM users WHERE email = ?";
+// $stmt = mysqli_prepare($connection, $sql);
+// mysqli_stmt_bind_param($stmt, "s", $_SESSION['email']);
+// mysqli_stmt_execute($stmt);
+// $result = mysqli_stmt_get_result($stmt);
+// $user = mysqli_fetch_assoc($result);
+
+
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['update_name'])) {
-        $name = $_POST['name'];
-        $sql = "UPDATE users SET name='$name' WHERE id='$user_id'";
+        $_SESSION['user_name'] = filter_input(INPUT_POST,"name", FILTER_SANITIZE_SPECIAL_CHARS);
+        $name = $_SESSION['user_name'];
+        $sql = "UPDATE users SET name='$name' WHERE email='$user_email'";
         if (mysqli_query($connection, $sql)) {
             $_SESSION['user_name'] = $name;
             echo "Nome atualizado com sucesso!";
@@ -20,7 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo "Erro: " . $sql . "<br>" . mysqli_error($connection);
         }
     } elseif (isset($_POST['update_email'])) {
-        $email = $_POST['email'];
+        $email = $_SESSION['email'];
         $sql = "UPDATE users SET email='$email' WHERE id='$user_id'";
         if (mysqli_query($connection, $sql)) {
             echo "Email atualizado com sucesso!";
@@ -28,8 +40,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo "Erro: " . $sql . "<br>" . mysqli_error($connection);
         }
     } elseif (isset($_POST['update_password'])) {
-        $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
-        $sql = "UPDATE users SET password='$password' WHERE id='$user_id'";
+        $_SESSION['password'] = filter_input(INPUT_POST,"password", FILTER_SANITIZE_SPECIAL_CHARS);
+        $password = $_SESSION['password'];
+        $sql = "UPDATE users SET password='$password' WHERE email='$user_email'";
         if (mysqli_query($connection, $sql)) {
             echo "Senha atualizada com sucesso!";
         } else {
@@ -52,7 +65,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo "Erro ao fazer upload da imagem.";
         }
     } elseif (isset($_POST['delete'])) {
-        $sql = "DELETE FROM users WHERE id='$user_id'";
+        $sql = "DELETE FROM users WHERE email='$user_email'";
         if (mysqli_query($connection, $sql)) {
             session_destroy();
             header("Location: register.php");
@@ -62,7 +75,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
-$sql = "SELECT * FROM users WHERE id='$user_id'";
+$sql = "SELECT * FROM users WHERE email='$email'";
 $result = mysqli_query($connection, $sql);
 $user = mysqli_fetch_assoc($result);
 ?>
@@ -124,24 +137,24 @@ $user = mysqli_fetch_assoc($result);
         <div class="container">
             <h2>Perfil</h2>
             <div class="text-center mb-4">
-                <img src="../uploads/<?php echo $user['profile_pic']; ?>" alt="Foto de Perfil" class="profile-pic">
-                <h3><?php echo $user['name']; ?></h3>
-                <p><?php echo $user['email']; ?></p>
+                <img src="../uploads/<?php echo $_SESSION['profile_pic']; ?>" alt="Foto de Perfil" class="profile-pic">
+                <h3><?php echo $_SESSION['user_name']; ?></h3>
+                <p><?php echo $_SESSION['email']; ?></p>
             </div>
-            <form method="POST" action="profile.php" enctype="multipart/form-data">
+            <form method="POST" action="profile.php" enctype="multipart/form-data" id="updatecontrol">
                 <div class="mb-3">
                     <label for="name" class="form-label">Nome</label>
-                    <input type="text" class="form-control" id="name" name="name" value="<?php echo $user['name']; ?>" required>
-                    <button type="submit" name="update_name" class="btn btn-primary mt-2">Alterar Nome</button>
+                    <input type="text" class="form-control" id="name" name="name" value="<?php echo $_SESSION['user_name']; ?>" required>
+                    <button onclick="" type="submit" name="update_name" class="btn btn-primary mt-2">Alterar Nome</button>
                 </div>
                 <div class="mb-3">
                     <label for="email" class="form-label">Email</label>
-                    <input type="email" class="form-control" id="email" name="email" value="<?php echo $user['email']; ?>" required>
-                    <button type="submit" name="update_email" class="btn btn-primary mt-2">Alterar Email</button>
+                    <input type="email" class="form-control" id="email" name="email" value="<?php echo $_SESSION['email']; ?>" disabled>
+
                 </div>
                 <div class="mb-3">
                     <label for="password" class="form-label">Nova Senha</label>
-                    <input type="password" class="form-control" id="password" name="password" required>
+                    <input type="password" class="form-control" id="password" name="password" >
                     <button type="submit" name="update_password" class="btn btn-primary mt-2">Alterar Senha</button>
                 </div>
                 <div class="mb-3">
@@ -149,9 +162,10 @@ $user = mysqli_fetch_assoc($result);
                     <input type="file" class="form-control" id="profile_pic" name="profile_pic" accept="image/*">
                     <button type="submit" name="update_profile_pic" class="btn btn-primary mt-2">Alterar Foto de Perfil</button>
                 </div>
-                <button type="submit" name="delete" class="btn btn-danger mt-3">Deletar Conta</button>
+                <button onclick="" type="submit" name="delete" class="btn btn-danger mt-3">Deletar Conta</button>
             </form>
         </div>
     </main>
+    <script src="../js/update.js"></script>
 </body>
 </html>

@@ -5,12 +5,11 @@ $dbpassword = "";
 $dbname = "accb_db";
 $connection = "";
 
-try {
+    mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
     $connection = mysqli_connect($dbserver, $dbuser, $dbpassword, $dbname);
-    if (!$connection) {
-        throw new Exception("Erro na conexão com o banco de dados.");
+    
+    if (!$connection) 
+    {
+        die("Connection failed: " . mysqli_connect_error());
     }
-} catch (Exception $e) {
-    echo $e->getMessage();
-}
 ?>
