@@ -9,13 +9,11 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <?php session_start(); ?>
     <div class="wrapper">
         <header>
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top w-100">
                 <div class="container-fluid">
                     <a class="navbar-brand" href="#">
-                        <img src="imagens/logo.png" alt="Logo ACBB" width="30" height="30" class="d-inline-block align-top">
                         ACBB Consultoria
                     </a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -43,10 +41,10 @@
                             </li>
                         </ul>
                         <div class="d-flex">
-                            <?php if (isset($_SESSION['user_name'])): ?>
+                            <?php if (isset($_COOKIE['user_name'])): ?>
                                 <span class="navbar-text me-3">
-                                    <img src="uploads/<?php echo $_SESSION['profile_pic']; ?>" alt="Foto de Perfil" width="30" height="30" class="rounded-circle me-2">
-                                    Olá, <a href="php/profile.php"><?php echo $_SESSION['user_name']; ?></a>
+                                    <img src="uploads/<?php echo $_COOKIE['profile_pic']; ?>" alt="Foto de Perfil" width="30" height="30" class="rounded-circle me-2">
+                                    Olá, <a href="php/profile.php"><?php echo $_COOKIE['user_name']; ?></a>
                                 </span>
                                 <a href="php/logout.php" class="btn btn-outline-danger">Sair</a>
                             <?php else: ?>
@@ -71,15 +69,15 @@
                 <div class="carousel-container">
                     <div class="carousel-slide">
                         <img src="https://vbmc.com.br/wp-content/uploads/2020/12/consultoria-empresarial-o-que-e-tipos-e-interacoes.jpg" alt="Imagem 1">
-                        <div class="caption">Legenda da Imagem 1</div>
+                        <div class="caption">Transformamos desafios em oportunidades de crescimento.</div>
                     </div>
                     <div class="carousel-slide">
                         <img src="https://img.freepik.com/fotos-gratis/colheita-de-colegas-usando-o-laptop-na-mesa_1098-20092.jpg?size=626&ext=jpg&ga=GA1.1.2082370165.1716422400&semt=ais_user" alt="Imagem 2">
-                        <div class="caption">Legenda da Imagem 2</div>
+                        <div class="caption">Sua visão, nossa estratégia: sucesso garantido.</div>
                     </div>
                     <div class="carousel-slide">
                         <img src="https://img.freepik.com/fotos-gratis/o-inspetor-financeiro-e-o-secretario-fazem-relatorio-calculam-ou-verificam-o-saldo-documento-de-verificacao-do-inspetor-do-servico-de-receita-federal-conceito-de-auditoria_1423-126.jpg" alt="Imagem 3">
-                        <div class="caption">Legenda da Imagem 3</div>
+                        <div class="caption">Inovação e excelência para impulsionar seu negócio.</div>
                     </div>
                 </div>
                 <button class="prev-btn">&#10094;</button>
@@ -129,10 +127,10 @@
                         </div>
                         <div class="col-md-3">
                             <h4>Argel Costa</h4>
-                            <p>Diretora de Projetos</p>
+                            <p>Diretor de Projetos</p>
                         </div>
                         <div class="col-md-3">
-                            <h4>Bryan costa</h4>
+                            <h4>Bryan Costa</h4>
                             <p>Consultor Sênior</p>
                         </div>
                         <div class="col-md-3">
