@@ -1,3 +1,48 @@
+<?php
+ob_start();
+include 'database.php';
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+
+    $check = "SELECT * FROM users WHERE email= ?";
+    
+    $stmt = mysqli_prepare($connection, $check);
+
+    if ($stmt) {
+        mysqli_stmt_bind_param($stmt, "s", $email);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
+
+        if ($result) {
+            if ($result->num_rows > 0) {
+                $user = $result->fetch_assoc();
+                if ($password == $user['password']) {
+                    setcookie('user_id', $user['id'], time() + 3600, "/"); // 1 hora de duração
+                    setcookie('email', $user['email'], time() + 3600, "/");
+                    setcookie('user_name', $user['name'], time() + 3600, "/");
+                    setcookie('profile_pic', $user['profile_pic'], time() + 3600, "/");
+                    header("Location: ../index.php");
+                    exit();
+                } else {
+                    echo "Senha incorreta.";
+                }
+            } else {
+                echo "Usuário não encontrado.";
+            }
+        } else {
+            echo "Erro ao obter o resultado: " . $connection->error;
+        }
+        $stmt->close();
+    } else {
+        echo "Erro ao preparar a consulta: " . $connection->error;
+    }
+}
+mysqli_close($connection);
+ob_end_flush();
+?>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -46,66 +91,21 @@
     <main class="mt-5 pt-4">
         <div class="container">
             <h2>Login</h2>
-            <form method="POST" action="<?php htmlspecialchars($_SERVER["PHP_SELF"])?>" id="control">
+            <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" id="control">
                 <div class="mb-3">
                     <label for="email" class="form-label">Email</label>
-                    <input type="email" class="form-control" id="email" name="email">
+                    <input type="email" class="form-control" id="email" name="email" required>
                 </div>
                 <div class="mb-3">
                     <label for="password" class="form-label">Senha</label>
                     <input type="password" class="form-control" id="password" name="password" required>
                 </div>
-                <button onclick="Logar()" type="button" value="register" class="btn btn-primary">Login</button>
+                <button type="submit" class="btn btn-primary">Login</button>
                 <a href="../index.php" class="btn btn-secondary">Voltar</a>
             </form>
         </div>
     </main>
     
-    <?php
-include 'database.php';
-
-session_start();
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") 
-{
-    $email = $_POST['email'];
-    $password = $_POST['password'];
-
-    $check = "SELECT * FROM users WHERE email= ?";
-    
-    $stmt = mysqli_prepare($connection, $check);
-
-    if ($stmt) {
-        mysqli_stmt_bind_param($stmt, "s", $email);
-        mysqli_stmt_execute($stmt);
-        $result = mysqli_stmt_get_result($stmt);
-
-        if ($result) {
-            if ($result->num_rows > 0) {
-                $user = $result->fetch_assoc();
-                if ($password == $user['password']) {
-                    $_SESSION['user_id'] = $user['#'];
-                    $_SESSION['email'] = $user['email'];
-                    $_SESSION['user_name'] = $user['name'];
-                    $_SESSION['profile_pic'] = $user['profile_pic'];
-                    header("Location: ../index.php");
-                    exit();
-                } else {
-                    echo "Senha incorreta.";
-                }
-            } else {
-                echo "Usuário não encontrado.";
-            }
-        } else {
-            echo "Erro ao obter o resultado: " . $connection->error;
-        }
-        $stmt->close();
-    } else {
-        echo "Erro ao preparar a consulta: " . $connection->error;
-    }
-}
-mysqli_close($connection);
-?>
-<script src="../js/login.js"></script>
+    <script src="../js/login.js"></script>
 </body>
 </html>
